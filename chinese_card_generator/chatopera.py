@@ -15,6 +15,7 @@ def get_synonym_list(
         threshold: float = 0.8
 ) -> List[Synonym]:
     results = synonyms.nearby(word=word, size=n)
+    # todo remove first synonym
     lst = []
     for synonym, score in zip(*results):
         if score > threshold:
