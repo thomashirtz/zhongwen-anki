@@ -2,3 +2,5 @@ git+https://github.com/chatopera/Synonyms#egg=Synonyms
 requests
 pinyin
 pandas
+deep-translator
+hanzidentifier
