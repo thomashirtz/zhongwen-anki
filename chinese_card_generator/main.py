@@ -6,6 +6,12 @@ from chinese_card_generator import tatoeba
 from chinese_card_generator import chatopera
 
 
+# 1 read the input file
+# 2 read the output file
+# 3 find the row to do
+# 4 append one row at the time to the file
+
+
 def process_file(
         input_path: str,
         output_path: str,
@@ -13,7 +19,6 @@ def process_file(
         threshold_synonyms: float = 0.8
 ):
     dataframe = utilities.get_dataframe(input_path)
-
     tmp = []
     for index, row in dataframe.iterrows():
 
@@ -33,23 +38,18 @@ def process_file(
             'Synonyms': chatopera.format_synonym_list(synonym_list)
         })
 
-        if index > 3:
-            break
-
     tmp_dataframe = pd.DataFrame(tmp)
     output_dataframe = pd.concat([dataframe, tmp_dataframe], axis=1)
     output_dataframe.to_csv(
         path_or_buf=output_path,
         sep='\t',
         index=False,
-        header=False
     )
-    print()
 
 
 if __name__ == '__main__':
-    input_path = r'..\data\input.txt'
-    output_path = r'..\data\output.csv'
+    input_path = r'..\data\Zhongwen-Words.txt'
+    output_path = r'..\data\output__.csv'
     process_file(
         input_path=input_path,
         output_path=output_path,
