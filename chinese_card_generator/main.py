@@ -1,5 +1,6 @@
 import pinyin
 import pandas as pd
+import os
 
 from chinese_card_generator import utilities
 from chinese_card_generator import tatoeba
@@ -18,38 +19,64 @@ def process_file(
         num_synonyms: int = 3,
         threshold_synonyms: float = 0.8
 ):
-    dataframe = utilities.get_dataframe(input_path)
-    tmp = []
-    for index, row in dataframe.iterrows():
+    dataframe_input = utilities.get_dataframe(input_path)
 
+    try:
+        dataframe_output = pd.read_csv(filepath_or_buffer=output_path, sep='\t')
+
+        input_word_set = set(dataframe_input['Simplified'])
+        output_word_set = set(dataframe_output['Simplified'])
+        word_list = list(input_word_set - output_word_set)
+
+        dataframe = dataframe_input[dataframe_input['Simplified'].isin(word_list)]
+
+    except FileNotFoundError:
+        dataframe = dataframe_input
+
+    for index, row in dataframe.iterrows():
+        dictionary = dict(row)
         word = row['Simplified']
-        sentence = tatoeba.get_sentence(word=word)
+        dictionary['Hint'] = word[0]
+
+        sentence = tatoeba.get_sentence(word=word) # Create SentenceFinder.__call__(word)
+        dictionary.update(
+            {
+                'SentenceSimplified': sentence.chinese,
+                'SentenceMeaning': sentence.english,
+                'SentencePinyin': pinyin.get(sentence.chinese),
+            }
+        )
+
         synonym_list = chatopera.get_synonym_list(
             word=word,
             n=num_synonyms,
             threshold=threshold_synonyms,
         )
+        dictionary.update(
+            {
+                'Synonyms': chatopera.format_synonym_list(synonym_list)  # Create SynonymFinder.__call__(word) + add method for formating
+            }
+        )
 
-        tmp.append({
-            'Hint': row['Pinyin'][0],
-            'SentenceSimplified': sentence.chinese,
-            'SentenceMeaning': sentence.english,
-            'SentencePinyin': pinyin.get(sentence.chinese),
-            'Synonyms': chatopera.format_synonym_list(synonym_list)
-        })
-
-    tmp_dataframe = pd.DataFrame(tmp)
-    output_dataframe = pd.concat([dataframe, tmp_dataframe], axis=1)
-    output_dataframe.to_csv(
-        path_or_buf=output_path,
-        sep='\t',
-        index=False,
-    )
+        # To be sure that the columns are in the right order.
+        columns = [
+            'Simplified', 'Traditional', 'Pinyin', 'Meaning', 'Hint',
+            'SentenceSimplified', 'SentenceMeaning', 'SentencePinyin',
+            'Synonyms'
+        ]
+        temporary_dataframe = pd.DataFrame([dictionary])[columns]
+        temporary_dataframe.to_csv(
+            path_or_buf=output_path,
+            sep='\t',
+            index=False,
+            mode='a',
+            header=not os.path.exists(output_path)
+        )
 
 
 if __name__ == '__main__':
     input_path = r'..\data\Zhongwen-Words.txt'
-    output_path = r'..\data\output__.csv'
+    output_path = r'..\data\output___.csv'
     process_file(
         input_path=input_path,
         output_path=output_path,
