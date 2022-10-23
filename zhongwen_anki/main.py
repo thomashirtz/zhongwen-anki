@@ -27,7 +27,7 @@ def process_file(
 
         dataframe = dataframe_input[dataframe_input['Simplified'].isin(word_list)]
 
-    except FileNotFoundError:
+    except (FileNotFoundError, pd.errors.EmptyDataError):
         dataframe = dataframe_input
 
     for index, row in dataframe.iterrows():
@@ -63,8 +63,8 @@ def process_file(
 
 
 if __name__ == '__main__':
-    input_path = r'..\data\Zhongwen-Words.txt'
-    output_path = r'..\data\output____.csv'
+    input_path = r'..\data\input.txt'
+    output_path = r'..\data\output.csv'
     process_file(
         input_path=input_path,
         output_path=output_path,
