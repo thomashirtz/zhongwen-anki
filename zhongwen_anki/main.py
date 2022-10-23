@@ -1,25 +1,22 @@
-import pinyin
-import pandas as pd
 import os
+import pandas as pd
 
-from chinese_card_generator import utilities
-from chinese_card_generator import tatoeba
-from chinese_card_generator import chatopera
-
-
-# 1 read the input file
-# 2 read the output file
-# 3 find the row to do
-# 4 append one row at the time to the file
+from zhongwen_anki.sentence import SentenceFinder, EmptySentenceFinder, TatoebaSentenceFinder
+from zhongwen_anki.synonym import SynonymsFinder, EmptySynonymsFinder, ChatOperaSynonymsFinder
 
 
 def process_file(
         input_path: str,
         output_path: str,
-        num_synonyms: int = 3,
-        threshold_synonyms: float = 0.8
+        sentence_finder: SentenceFinder = TatoebaSentenceFinder(),
+        synonym_finder: SynonymsFinder = ChatOperaSynonymsFinder(),
 ):
-    dataframe_input = utilities.get_dataframe(input_path)
+    dataframe_input = pd.read_csv(
+        filepath_or_buffer=input_path,
+        sep='\t',
+        names=['Simplified', 'Traditional', 'Pinyin', 'Meaning', '']
+    )
+    dataframe_input = dataframe_input.iloc[:, :-1]  # Zhongwen creates files with an extra blank row
 
     try:
         dataframe_output = pd.read_csv(filepath_or_buffer=output_path, sep='\t')
@@ -36,29 +33,20 @@ def process_file(
     for index, row in dataframe.iterrows():
         dictionary = dict(row)
         word = row['Simplified']
-        dictionary['Hint'] = word[0]
 
-        sentence = tatoeba.get_sentence(word=word) # Create SentenceFinder.__call__(word)
+        sentence = sentence_finder(word=word)
+        formatted_synonyms = synonym_finder(word=word)
         dictionary.update(
             {
+                'Hint': word[0],
                 'SentenceSimplified': sentence.chinese,
                 'SentenceMeaning': sentence.english,
-                'SentencePinyin': pinyin.get(sentence.chinese),
+                'SentencePinyin': sentence.pinyin,
+                'Synonyms': formatted_synonyms,
             }
         )
 
-        synonym_list = chatopera.get_synonym_list(
-            word=word,
-            n=num_synonyms,
-            threshold=threshold_synonyms,
-        )
-        dictionary.update(
-            {
-                'Synonyms': chatopera.format_synonym_list(synonym_list)  # Create SynonymFinder.__call__(word) + add method for formating
-            }
-        )
-
-        # To be sure that the columns are in the right order.
+        # To be sure that the columns are always in the right order.
         columns = [
             'Simplified', 'Traditional', 'Pinyin', 'Meaning', 'Hint',
             'SentenceSimplified', 'SentenceMeaning', 'SentencePinyin',
@@ -76,7 +64,7 @@ def process_file(
 
 if __name__ == '__main__':
     input_path = r'..\data\Zhongwen-Words.txt'
-    output_path = r'..\data\output___.csv'
+    output_path = r'..\data\output____.csv'
     process_file(
         input_path=input_path,
         output_path=output_path,
