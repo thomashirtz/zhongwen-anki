@@ -1,15 +1,19 @@
 import os
+import pathlib
+import argparse
+import requests
 import pandas as pd
 
+# from zhongwen_anki.chatopera import ChatOperaSynonymsFinder
+from zhongwen_anki.synonym import SynonymsFinder, EmptySynonymsFinder
 from zhongwen_anki.sentence import SentenceFinder, EmptySentenceFinder, TatoebaSentenceFinder
-from zhongwen_anki.synonym import SynonymsFinder, EmptySynonymsFinder, ChatOperaSynonymsFinder
 
 
-def process_file(
+def script(
         input_path: str,
         output_path: str,
         sentence_finder: SentenceFinder = TatoebaSentenceFinder(),
-        synonym_finder: SynonymsFinder = ChatOperaSynonymsFinder(),
+        synonym_finder: SynonymsFinder = EmptySynonymsFinder(),
 ):
     dataframe_input = pd.read_csv(
         filepath_or_buffer=input_path,
@@ -53,20 +57,39 @@ def process_file(
             'Synonyms'
         ]
         temporary_dataframe = pd.DataFrame([dictionary])[columns]
+        is_file_empty = os.path.exists(output_path) and os.stat(output_path).st_size == 0
         temporary_dataframe.to_csv(
             path_or_buf=output_path,
             sep='\t',
             index=False,
             mode='a',
-            header=not os.path.exists(output_path)
+            header=not os.path.exists(output_path) or is_file_empty
         )
+    return 0
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i', '--input_path', type=pathlib.Path, required=True)
+    parser.add_argument('-o', '--output_path', type=pathlib.Path, required=True)
+    args = parser.parse_args()
+    script(
+        input_path=str(args.input_path),
+        output_path=str(args.output_path),
+    )
 
 
 if __name__ == '__main__':
     input_path = r'..\data\input.txt'
     output_path = r'..\data\output.csv'
-    process_file(
-        input_path=input_path,
-        output_path=output_path,
 
-    )
+    finished = False
+    while not finished:
+        try:
+            script(
+                input_path=input_path,
+                output_path=output_path,
+            )
+            finished = True
+        except (requests.exceptions.ProxyError, requests.exceptions.SSLError):
+            pass
