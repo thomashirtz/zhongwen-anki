@@ -1,0 +1,21 @@
+<div class=mainCharacters style="visibility: hidden">{{Traditional}}</div>
+<div class=secondaryCharacters style="visibility: hidden">{{Simplified}}</div>
+
+<span class=pinyin id='startPinyin'>{{Pinyin}}&nbsp<br></span>
+<div class=meaning>{{Meaning}}&nbsp<br></div>
+<div style="line-height:70%;"><br></div>
+
+<hr>
+<div class=sentence style="visibility: hidden">{{SentenceSimplified}}&nbsp</div>
+<div style="line-height:20%;"><br></div>
+<div class=sentencePinyin id='sentencePinyin' style="visibility: hidden">{{SentencePinyin}}&nbsp</div>
+<div class=SentenceMeaning style="visibility: hidden">{{SentenceMeaning}}&nbsp</div>
+<div style="line-height:70%;"><br></div>
+
+<hr>
+<div class=synonyms>{{Synonyms}}&nbsp</div>
+
+<script>
+	start = document.getElementById('startPinyin');
+	start.innerHTML = start.innerHTML.charAt(0);
+</script>

@@ -1,0 +1,39 @@
+<div class=mainCharacters>{{Traditional}}&nbsp<br></div>
+<div class=secondaryCharacters>{{Simplified}}&nbsp<br></div>
+
+<div class=pinyin>{{Pinyin}}&nbsp<br></div>
+<div class=meaning>{{Meaning}}&nbsp<br></div>
+
+<div style="line-height:70%;"><br></div>
+
+<hr>
+
+<div class=sentence>{{SentenceSimplified}}&nbsp<br></div>
+<div style="line-height:20%;"><br></div>
+<div class=sentencePinyinHidden>{{SentencePinyin}}&nbsp<br></div>
+<div class=SentenceMeaning>{{SentenceMeaning}}&nbsp<br></div>
+<div style="line-height:70%;"><br></div>
+
+<hr>
+
+<div class=synonyms>{{Synonyms}}</div>
+
+<div class=bottomcontrols>
+    <div class=controlPleco><a href="plecoapi://x-callback-url/s?q={{Simplified}}&mode=df&hw={{Simplified}}&py={{Pinyin}}&sec=dict&x-source=AnkiDroid"> &nbsp&nbsp&nbsp&nbspWord&nbsp&nbsp&nbsp&nbsp</a></div>
+    <div class=controlHide onclick="toggleVisibility('sentencePinyinHidden')">Unhide&nbsp&nbsp&nbsp&nbsp</div>
+    <div class=controlPleco><a href="plecoapi://x-callback-url/s?q={{SentenceSimplified}}">Sentence&nbsp&nbsp&nbsp&nbsp</a></div>
+    <div class=controlPleco><a href="plecoapi://x-callback-url/s?q={{Synonyms}}">Synonyms&nbsp</a></div>
+</div>
+
+<script>
+	function toggleVisibility(className) {
+		var elements = document.getElementsByClassName(className);
+		for (var i = 0; i < elements.length; i++) {
+			if (elements[i].style.visibility === "visible") {
+				elements[i].style.visibility = "hidden";
+			} else {
+				elements[i].style.visibility = "visible";
+			}
+		}
+	}
+</script>
