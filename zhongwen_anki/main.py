@@ -69,13 +69,24 @@ def script(
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input_path', type=pathlib.Path, required=True)
-    parser.add_argument('-o', '--output_path', type=pathlib.Path, required=True)
+    parser = argparse.ArgumentParser(
+        description='zhongwen-anki',
+        usage='Use "zhongwen-anki --help" or "za --help" for more information',
+    )
+    parser.add_argument(
+        '-i', '--input',
+        type=pathlib.Path, required=True, metavar='',
+        help='Input file path.',
+    )
+    parser.add_argument(
+        '-o', '--output',
+        type=pathlib.Path, required=True, metavar='',
+        help='Output file path.',
+    )
     args = parser.parse_args()
     script(
-        input_path=str(args.input_path),
-        output_path=str(args.output_path),
+        input_path=str(args.input),
+        output_path=str(args.output),
     )
 
 
