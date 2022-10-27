@@ -56,8 +56,8 @@ The base information are taken from zhongwen. Then example sentences are added b
 
 ## Installation
 
-```
-
+```console
+pip install git+https://github.com/thomashirtz/zhongwen-anki#egg=zhongwen-anki
 ```
 
 ## Utilization
