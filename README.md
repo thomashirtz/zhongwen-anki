@@ -62,6 +62,12 @@ pip install git+https://github.com/thomashirtz/zhongwen-anki#egg=zhongwen-anki
 
 ## Utilization
 
+Download your zhongwen word list, then run:
+
+```
+zhongwen-anki -i 'input_file_path' -o 'output_file_path'
+```
+
 ## License
 
      Copyright 2021 Thomas Hirtz
