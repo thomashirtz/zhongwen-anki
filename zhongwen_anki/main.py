@@ -4,17 +4,30 @@ import argparse
 import requests
 import pandas as pd
 
-# from zhongwen_anki.chatopera import ChatOperaSynonymsFinder
-from zhongwen_anki.synonym import SynonymsFinder, EmptySynonymsFinder
-from zhongwen_anki.sentence import SentenceFinder, EmptySentenceFinder, TatoebaSentenceFinder
+from zhongwen_anki.chatopera import ChatOperaSynonymsFinder
+from zhongwen_anki.synonym import SynonymsFinder, EmptySynonymsFinder  # noqa: W0611
+from zhongwen_anki.sentence import SentenceFinder, EmptySentenceFinder, TatoebaSentenceFinder  # noqa: W0611
 
 
 def script(
         input_path: str,
         output_path: str,
         sentence_finder: SentenceFinder = TatoebaSentenceFinder(),
-        synonym_finder: SynonymsFinder = EmptySynonymsFinder(),
-):
+        synonym_finder: SynonymsFinder = ChatOperaSynonymsFinder(),
+) -> int:
+    """Script used to transform a `zhongwen` word list to a new file containing
+    more information. Example sentences are added using a `SentenceFinder` module
+    while the synonyms are found using a `SynonymsFinder` module.
+
+    Args:
+        input_path: File path to the `zhongwen` word list.
+        output_path: Output file path.
+        sentence_finder: A `SentenceFinder` module.
+        synonym_finder: A `SynonymsFinder` module.
+
+    Returns:
+        Integer indicating the exit code of the function.
+    """
     dataframe_input = pd.read_csv(
         filepath_or_buffer=input_path,
         sep='\t',
