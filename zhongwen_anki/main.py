@@ -81,7 +81,13 @@ def script(
     return 0
 
 
-def main():
+def main() -> int:
+    """Main function. It is responsible for parsing the arguments, then  it
+    will call the card generation script.
+
+    Returns:
+        Integer indicating the exit code of the function.
+    """
     parser = argparse.ArgumentParser(
         description='zhongwen-anki',
         usage='Use "zhongwen-anki --help" or "za --help" for more information',
@@ -97,7 +103,7 @@ def main():
         help='Output file path.',
     )
     args = parser.parse_args()
-    script(
+    return script(
         input_path=str(args.input),
         output_path=str(args.output),
     )
