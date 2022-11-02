@@ -14,9 +14,17 @@ class Sentence:
 
 
 class SentenceFinder(ABC):
+    """Abstract class to define the sentence finder interface."""
     @abstractmethod
     def __call__(self, word: str) -> Sentence:
-        ...
+        """Method used to find a "Sentence" example using a word.
+
+        Args:
+            word: String containing the word.
+
+        Returns:
+            `Sentence` object.
+        """
 
 
 class EmptySentenceFinder(SentenceFinder):
