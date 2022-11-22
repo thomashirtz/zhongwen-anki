@@ -2,7 +2,8 @@
 
 This extension is done to create cards using vocabulary saved with the [Zhongwen](https://github.com/cschiller/zhongwen) browser extension.
 
-The base information are taken from zhongwen. Then example sentences are added by querying the Totoaba API, the pinyin of the sentence is generated using the [pinyin](https://github.com/lxyu/pinyin) library. Moreover synonyms are added to the entry if avalaible. The synonyms are querried using [chatopera](https://github.com/chatopera/Synonyms) and their meaning are generated using the GoogleTranslate module from the [deep-translator](https://github.com/nidhaloff/deep-translator) library. 
+The base information are taken from zhongwen. Then, additional field are added to the cards using different websites/librairies/apis.
+
 <div align="center">
 <table>
 <tr>
