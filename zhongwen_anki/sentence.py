@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
-
-import requests
 from dataclasses import dataclass
-import hanzidentifier
+import requests
 import pinyin
+from bs4 import BeautifulSoup
+from deep_translator import GoogleTranslator
+from zhongwen_anki.utilities import get_marked_characters
 
 
 @dataclass
@@ -11,6 +12,7 @@ class Sentence:
     chinese: str
     english: str
     pinyin: str
+    chinese_colored: str
 
 
 class SentenceFinder(ABC):
@@ -32,24 +34,42 @@ class EmptySentenceFinder(SentenceFinder):
         return Sentence(chinese='', english='', pinyin='')
 
 
-class TatoebaSentenceFinder(SentenceFinder):
+class ZaixianSentenceFinder(SentenceFinder):
+    def __init__(self):
+        self.translator = GoogleTranslator(source='zh-CN', target='en')
+
     def __call__(self, word: str) -> Sentence:
-        query = f'https://tatoeba.org/en/api_v0/search?from=cmn&query="{word}"&to=eng'
-        response = requests.get(url=query)
+        query = fr'http://www.87653.com/{word}造句/'
+        try:
+            response = requests.get(url=query, headers={'User-Agent': 'Custom'})
+            soup = BeautifulSoup(response.content, 'html.parser')
+            if response.status_code == 404:
+                return Sentence(
+                    chinese='',
+                    english='',
+                    pinyin='',
+                    chinese_colored=''
+                )
+            sentence = soup.find('p').text[2:]
+            return Sentence(
+                chinese=sentence,
+                english=self.translator.translate(sentence),
+                pinyin=pinyin.get(sentence),
+                chinese_colored=get_marked_characters(sentence),
+            )
+        except Exception as e:
+            print('cidiana', e)
+            return Sentence(
+                chinese='',
+                english='',
+                pinyin='',
+                chinese_colored=''
+            )
 
-        results = response.json()['results']
-        for result in results:
-            if hanzidentifier.is_simplified(result['text']):
 
-                try:
-                    sentence = Sentence(
-                        chinese=result['text'],
-                        english=result['translations'][0][0]['text'],
-                        pinyin=pinyin.get(result['text']),
-                    )
-                    print(f"{word} - {sentence.chinese} - {sentence.english}")
-                    return sentence
-                except IndexError:
-                    pass
-
-        return Sentence(chinese='', english='', pinyin='')
+if __name__ == '__main__':
+    word = '防弹衣'
+    sf = ZaixianSentenceFinder()
+    sentence = sf(word)
+    print(sentence)
+    print()
