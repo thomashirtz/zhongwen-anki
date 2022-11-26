@@ -32,11 +32,13 @@ def get_marked_characters(characters: str, pinyin: Optional[str] = None):
 
     marked_characters = ''
     for c, p in zip(character_list, pinyin_list):
+        character = c
         for tone, vowel_list in tone_to_vowel_list.items():
             if contains(p, vowel_list):
-                marked_characters += add_mark(c, tone)
-                print(tone)
+                character = add_mark(c, tone)
                 break
+        marked_characters += character
+
     return ''.join(marked_characters)
 
 
