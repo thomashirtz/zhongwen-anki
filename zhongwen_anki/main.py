@@ -4,16 +4,18 @@ import argparse
 import requests
 import pandas as pd
 
-from zhongwen_anki.chatopera import ChatOperaSynonymsFinder
-from zhongwen_anki.synonym import SynonymsFinder, EmptySynonymsFinder  # noqa: W0611
-from zhongwen_anki.sentence import SentenceFinder, EmptySentenceFinder, TatoebaSentenceFinder  # noqa: W0611
+from zhongwen_anki.utilities import get_marked_characters
+from zhongwen_anki.synonyms import SynonymsFinder, EmptySynonymsFinder, BaiduSynonymsFinder  # noqa: W0611
+from zhongwen_anki.sentence import SentenceFinder, EmptySentenceFinder, ZaixianSentenceFinder  # noqa: W0611
+from zhongwen_anki.meaning import MeaningFinder, EmptyMeaningFinder, CidianMeaningFinder  # noqa: W0611
 
 
 def script(
         input_path: str,
         output_path: str,
-        sentence_finder: SentenceFinder = TatoebaSentenceFinder(),
-        synonym_finder: SynonymsFinder = ChatOperaSynonymsFinder(),
+        sentence_finder: SentenceFinder = ZaixianSentenceFinder(),
+        meaning_finder: MeaningFinder = CidianMeaningFinder(),
+        synonym_finder: SynonymsFinder = BaiduSynonymsFinder(),
 ) -> int:
     """Script used to transform a `zhongwen` word list to a new file containing
     more information. Example sentences are added using a `SentenceFinder` module
@@ -50,24 +52,45 @@ def script(
     for index, row in dataframe.iterrows():
         dictionary = dict(row)
         word = row['Simplified']
+        print(index, word)
+
+        simplified_colored = get_marked_characters(
+            characters=row['Simplified'],
+        )
+        traditional_colored = get_marked_characters(
+            characters=row['Traditional'],
+        )
 
         sentence = sentence_finder(word=word)
-        formatted_synonyms = synonym_finder(word=word)
+        synonyms = synonym_finder(word=word)
+        meaning = meaning_finder(word=word)
+
         dictionary.update(
             {
                 'Hint': word[0],
+                'SimplifiedColored': simplified_colored,
+                'TraditionalColored': traditional_colored,
                 'SentenceSimplified': sentence.chinese,
+                'SentenceSimplifiedColored': sentence.chinese_colored,
                 'SentenceMeaning': sentence.english,
                 'SentencePinyin': sentence.pinyin,
-                'Synonyms': formatted_synonyms,
+                'Synonyms': synonyms.summary,
+                'SynonymsColored': synonyms.summary_colored,
+                'DictionarySimplified': meaning.chinese,
+                'DictionarySimplifiedColored': meaning.chinese_colored,
+                'DictionaryPinyin': meaning.pinyin,
+                'DictionaryMeaning': meaning.english,
             }
         )
 
         # To be sure that the columns are always in the right order.
         columns = [
-            'Simplified', 'Traditional', 'Pinyin', 'Meaning', 'Hint',
-            'SentenceSimplified', 'SentenceMeaning', 'SentencePinyin',
-            'Synonyms'
+            'Simplified', 'SimplifiedColored',
+            'Traditional', 'TraditionalColored',
+            'Pinyin', 'Meaning', 'Hint',
+            'SentenceSimplified', 'SentenceSimplifiedColored', 'SentenceMeaning', 'SentencePinyin',
+            'Synonyms', 'SynonymsColored',
+            'DictionarySimplified', 'DictionarySimplifiedColored', 'DictionaryPinyin', 'DictionaryMeaning',
         ]
         temporary_dataframe = pd.DataFrame([dictionary])[columns]
         is_file_empty = os.path.exists(output_path) and os.stat(output_path).st_size == 0
@@ -110,8 +133,10 @@ def main() -> int:
 
 
 if __name__ == '__main__':
-    input_path = r'..\data\input.txt'
-    output_path = r'..\data\output.csv'
+    input_path = r'..\data\Zhongwen-Words(6).txt'
+    output_path = r'..\data\output_6.csv'
+    # input_path = r'..\data\input.txt'
+    # output_path = r'..\data\output.csv'
 
     finished = False
     while not finished:
