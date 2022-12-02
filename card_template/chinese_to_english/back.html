@@ -1,18 +1,70 @@
 <div class=mainCharacters>{{Traditional}}&nbsp<br></div>
-<div class=secondaryCharacters>{{Simplified}}&nbsp<br></div>
+<div class=secondaryCharactersColored>{{SimplifiedColored}}&nbsp<br></div>
 
-<div class=pinyin style="visibility: hidden">{{Pinyin}}&nbsp<br></div>
-<div class=meaning style="visibility: hidden">{{Meaning}}&nbsp<br></div>
+<div class=pinyin>{{Pinyin}}&nbsp<br></div>
+<div class=meaning>{{Meaning}}&nbsp<br></div>
 <div style="line-height:70%;"><br></div>
+
+<hr>
+
+<div class=synonyms>{{Synonyms}}</div>
+<div class=synonymsColored>{{SynonymsColored}}</div>
+
+<hr>
+
+<div class=dictionary>{{DictionarySimplified}}&nbsp<br></div>
+<div class=dictionaryColored>{{DictionarySimplifiedColored}}&nbsp<br></div>
+<div style="line-height:20%;"><br></div>
+<div class=dictionaryPinyinHidden>{{DictionaryPinyin}}&nbsp<br></div>
+<div class=dictionaryMeaning>{{DictionaryMeaning}}&nbsp<br></div>
+<div style="line-height:70%;"><br></div>
+
 
 <hr>
 
 <div class=sentence>{{SentenceSimplified}}&nbsp<br></div>
+<div class=sentenceColored>{{SentenceSimplifiedColored}}&nbsp<br></div>
 <div style="line-height:20%;"><br></div>
-<div class=sentencePinyin id='sentencePinyin' style="visibility: hidden">{{SentencePinyin}}&nbsp</div>
-<div class=SentenceMeaning style="visibility: hidden">{{SentenceMeaning}}&nbsp</div>
+<div class=sentencePinyinHidden>{{SentencePinyin}}&nbsp<br></div>
+<div class=sentenceMeaning>{{SentenceMeaning}}&nbsp<br></div>
 <div style="line-height:70%;"><br></div>
 
-<hr>
 
+<br>
+<br>
+<br>
+<br>
 
+<div class=bottomcontrols>
+    <div class=controlPleco><a href="plecoapi://x-callback-url/s?q={{Synonyms}}">&nbsp&nbspSynonyms&nbsp&nbsp</a></div>
+    <div class=controlPleco><a href="plecoapi://x-callback-url/s?q={{DictionarySimplified}}">Dictionary&nbsp&nbsp</a></div>
+    <div class=controlHide onclick="toggleVisibility('sentencePinyinHidden');toggleVisibility('dictionaryPinyinHidden');toggleDisplay('sentence');toggleDisplay('sentenceColored');toggleDisplay('synonyms');toggleDisplay('synonymsColored');toggleDisplay('dictionary');toggleDisplay('dictionaryColored')">&nbsp&nbspUnhide&nbsp&nbsp</div>
+    <div class=controlPleco><a href="plecoapi://x-callback-url/s?q={{Simplified}}&mode=df&hw={{Simplified}}&py={{Pinyin}}&sec=dict&x-source=AnkiDroid">&nbsp&nbspWord&nbsp&nbsp</a></div>
+    <div class=controlPleco><a href="plecoapi://x-callback-url/s?q={{SentenceSimplified}}">&nbspSentence&nbsp&nbsp</a></div>
+</div>
+
+<script>
+	function toggleVisibility(className) {
+		var elements = document.getElementsByClassName(className);
+		for (var i = 0; i < elements.length; i++) {
+			if (window.getComputedStyle(elements[i]).visibility === "visible") {
+				elements[i].style.visibility = "hidden";
+			} else {
+				elements[i].style.visibility = "visible";
+			}
+		}
+	}
+</script>
+
+<script>
+	function toggleDisplay(className) {
+		var elements = document.getElementsByClassName(className);
+		for (var i = 0; i < elements.length; i++) {
+			if (window.getComputedStyle(elements[i]).display === 'block') {
+				elements[i].style.display = 'none';
+			} else {
+				elements[i].style.display = 'block';
+			}
+		}
+	}
+</script>
