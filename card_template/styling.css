@@ -1,24 +1,47 @@
+
 a{color: inherit ; text-decoration: none}
 
-.card {font-family: arial; font-size: 10px; text-align: left; color: #222222;  background-color: #fdf6e3}
+.mobile .card.nightMode {color:white;}
+
+mark.tone-1 {color:#45a5ef; background: none;}
+mark.tone-2 {color:#4ab053; background: none;}
+mark.tone-3 {color:#f97b00; background: none;}
+mark.tone-4 {color:#d52e29; background: none;}
+mark.tone-5 {color:#9e9e9e; background: none;}
+
+.card {font-family: arial; font-size: 10px; text-align: left; color:#222222; background-color: #fdf6e3;}
 
 .mainCharacters {font-family: Kaiti; font-size: 78px}
+.mainCharactersColored {font-family: Kaiti; font-size: 78px}
+
 .secondaryCharacters {font-family: Kaiti; font-size: 25pt; color:grey}
+.secondaryCharactersColored {font-family: Kaiti; font-size: 25pt; color:grey}
 
-.pinyin {font-family: Gentium Plus; font-size: 22px; color: #005500; visibility: visible}
-.pinyinHidden {font-family: Gentium Plus; font-size: 22px; color: #005500; visibility: hidden}
+.pinyin {font-family: Gentium Plus; font-size: 22px; color: #FFAAFF; visibility: visible; word-break: break-all;}
+.pinyinHidden {font-family: Gentium Plus; font-size: 22px; color: #FFAAFF; visibility: hidden; word-break: break-all;}
 
-.meaning{font-family: Georgia; font-size: 16px}
+.meaning{font-family: Georgia; font-size: 16px;}
 
-.sentence{font-family: SimSun; font-size:24px; text-align:left; ; color:grey}
-.sentencePinyin {font-family: Gentium Plus; font-size: 20px; color: #005500; text-align:left; visibility: visible}
-.sentencePinyinHidden {font-family: Gentium Plus; font-size: 20px; color: #005500; text-align:left; visibility: hidden}
-.SentenceMeaning{font-family: Georgia; font-size: 16px;  text-align:left}
+.sentence{font-family: SimSun; font-size:24px; text-align:left; ; color:grey; display: block}
+.sentenceColored{font-family: SimSun; font-size:24px; text-align:left; ; color:grey; display: none}
 
-.synonyms{font-family: SimSun; font-size:20px; text-align:left; ; color:grey}
+.sentencePinyin {font-family: Gentium Plus; font-size: 20px; color: #FFAAFF; text-align:left; visibility: visible; word-break: break-all;}
+.sentencePinyinHidden {font-family: Gentium Plus; font-size: 20px; color: #FFAAFF; text-align:left; visibility: hidden; word-break: break-all;}
+.sentenceMeaning{font-family: Georgia; font-size: 16px;  text-align:left}
 
-.bottomcontrols{bottom: 10px; position: absolute; left: 0; right: 0; margin-left: auto; margin-right: auto; width:300px; background-color: white !Important;overflow:hidden;text-align: center}
-.controlPleco{font-family: Georgia; font-size: 14px;  display:inline-block; margin-right:0}
-.controlSoundSentence{font-family: Georgia; font-size: 14px;  display:inline-block; margin-right:0; display:inline-block; width:40px;border: 0 solid #000; text-align: center}
-.controlSoundWord{font-family: Georgia; font-size: 14px;  display:inline-block; margin-right: 0; display:inline-block; width:40px;border: 0 solid #000; text-align: center}
-.controlHide{font-family: Georgia; font-size: 14px;  display:inline-block; margin-right: 0}
+.dictionary{font-family: SimSun; font-size:24px; text-align:left; ; color:grey; display: block}
+.dictionaryColored{font-family: SimSun; font-size:24px; text-align:left; ; color:grey; display: none}
+
+.dictionaryPinyin {font-family: Gentium Plus; font-size: 20px; color: #FFAAFF; text-align:left; visibility: visible; word-break: break-all;}
+.dictionaryPinyinHidden {font-family: Gentium Plus; font-size: 20px; color: #FFAAFF; text-align:left; visibility: hidden; word-break: break-all;}
+.dictionaryMeaning{font-family: Georgia; font-size: 16px;  text-align:left}
+
+
+.synonyms{font-family: SimSun; font-size:20px; text-align:left; color:grey; display: block}
+.synonymsColored{font-family: SimSun; font-size:20px; text-align:left; color:grey; display: none}
+
+.bottomcontrols{bottom: 13px; position: fixed; left: 0; right: 0; margin-left: auto; margin-right: auto; width:360px;border: 5px solid #3c3c3c; background-color: #3c3c3c !Important;overflow:hidden;text-align: center}
+.controlPleco{font-family: Georgia; font-size: 14px;  display:inline-block; margin-right:0px;}
+.controlSoundSentence{font-family: Georgia; font-size: 14px;  display:inline-block; margin-right:0px; display:inline-block;width:40px;border: 0px solid #000; text-align: center}
+.controlSoundWord{font-family: Georgia; font-size: 14px;  display:inline-block; margin-right:0px;display:inline-block;width:40px;border: 0px solid #000; text-align: center}
+.controlHide{font-family: Georgia; font-size: 14px;  display:inline-block; margin-right:0px; font-weight: bold;}
