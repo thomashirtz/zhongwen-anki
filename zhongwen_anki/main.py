@@ -56,9 +56,11 @@ def script(
 
         simplified_colored = get_marked_characters(
             characters=row['Simplified'],
+            pinyin=row['Pinyin'],
         )
         traditional_colored = get_marked_characters(
             characters=row['Traditional'],
+            pinyin=row['Pinyin'],
         )
 
         sentence = sentence_finder(word=word)
