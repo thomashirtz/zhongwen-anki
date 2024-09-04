@@ -3,85 +3,78 @@ import pathlib
 import argparse
 import requests
 import pandas as pd
-
-from zhongwen_anki.utilities import get_marked_characters
-from zhongwen_anki.synonyms import SynonymsFinder, EmptySynonymsFinder, BaiduSynonymsFinder  # noqa: W0611
-from zhongwen_anki.sentence import SentenceFinder, EmptySentenceFinder, ZaixianSentenceFinder  # noqa: W0611
-from zhongwen_anki.meaning import MeaningFinder, EmptyMeaningFinder, CidianMeaningFinder  # noqa: W0611
+from zhongwen_anki.utilities import get_marked_characters, replace_extra_space, process_synonyms
 
 
 def script(
         input_path: str,
         output_path: str,
-        sentence_finder: SentenceFinder = ZaixianSentenceFinder(),
-        meaning_finder: MeaningFinder = CidianMeaningFinder(),
-        synonym_finder: SynonymsFinder = BaiduSynonymsFinder(),
 ) -> int:
-    """Script used to transform a `zhongwen` word list to a new file containing
-    more information. Example sentences are added using a `SentenceFinder` module
-    while the synonyms are found using a `SynonymsFinder` module.
-
+    """
     Args:
         input_path: File path to the `zhongwen` word list.
         output_path: Output file path.
-        sentence_finder: A `SentenceFinder` module.
-        synonym_finder: A `SynonymsFinder` module.
 
     Returns:
         Integer indicating the exit code of the function.
     """
-    dataframe_input = pd.read_csv(
+    columns = [
+        'Simplified', 'Traditional', 'Pinyin', 'Meaning', 'SentenceSimplified', 'SentenceMeaning', 'SentencePinyin',
+        'Synonyms', 'DictionarySimplified', 'DictionaryPinyin', 'DictionaryMeaning'
+    ]
+    dataframe = pd.read_csv(
         filepath_or_buffer=input_path,
         sep='\t',
-        names=['Simplified', 'Traditional', 'Pinyin', 'Meaning', '']
+        names=columns,
+        index_col=False,
     )
-    dataframe_input = dataframe_input.iloc[:, :-1]  # Zhongwen creates files with an extra blank row
 
     try:
-        dataframe_output = pd.read_csv(filepath_or_buffer=output_path, sep='\t')
-
-        input_word_set = set(dataframe_input['Simplified'])
-        output_word_set = set(dataframe_output['Simplified'])
-        word_list = list(input_word_set - output_word_set)
-
-        dataframe = dataframe_input[dataframe_input['Simplified'].isin(word_list)]
-
-    except (FileNotFoundError, pd.errors.EmptyDataError):
-        dataframe = dataframe_input
+        os.remove(output_path)
+    except FileNotFoundError:
+        pass
 
     for index, row in dataframe.iterrows():
         dictionary = dict(row)
         word = row['Simplified']
+
+        if word == 'Simplified Characters':
+            continue
+
         print(index, word)
 
-        simplified_colored = get_marked_characters(
+        simplified_marked = get_marked_characters(
             characters=row['Simplified'],
             pinyin=row['Pinyin'],
         )
-        traditional_colored = get_marked_characters(
+
+        traditional_marked = get_marked_characters(
             characters=row['Traditional'],
             pinyin=row['Pinyin'],
         )
 
-        sentence = sentence_finder(word=word)
-        synonyms = synonym_finder(word=word)
-        meaning = meaning_finder(word=word)
+        sentence_simplified_marked = get_marked_characters(
+            characters=row['SentenceSimplified'],
+            pinyin=row['SentencePinyin'],
+        )
+
+        row['DictionarySimplified'] = row['DictionarySimplified'].replace(' ', '')  # todo understand why I had to do replaced again
+        dictionary_marked = get_marked_characters(
+            characters=row['DictionarySimplified'],
+            pinyin=row['DictionaryPinyin'],
+        )
 
         dictionary.update(
             {
                 'Hint': word[0],
-                'SimplifiedColored': simplified_colored,
-                'TraditionalColored': traditional_colored,
-                'SentenceSimplified': sentence.chinese,
-                'SentenceSimplifiedColored': sentence.chinese_colored,
-                'SentenceMeaning': sentence.english,
-                'SentencePinyin': sentence.pinyin,
-                'Synonyms': synonyms.summary,
-                'SynonymsColored': synonyms.summary_colored,
-                'DictionarySimplified': meaning.chinese,
-                'DictionarySimplifiedColored': meaning.chinese_colored,
-                'DictionaryPinyin': meaning.pinyin,
-                'DictionaryMeaning': meaning.english,
+                'SimplifiedColored': simplified_marked,
+                'TraditionalColored': traditional_marked,
+                'SentenceSimplifiedColored': sentence_simplified_marked,
+                'SentencePinyin': replace_extra_space(row['SentencePinyin']),
+                'SynonymsColored': process_synonyms(row['Synonyms']),
+                'DictionarySimplified': row['DictionarySimplified'],
+                'DictionarySimplifiedColored': dictionary_marked,
+                'DictionaryPinyin': replace_extra_space(row['DictionaryPinyin']),
             }
         )
 
@@ -94,6 +87,7 @@ def script(
             'Synonyms', 'SynonymsColored',
             'DictionarySimplified', 'DictionarySimplifiedColored', 'DictionaryPinyin', 'DictionaryMeaning',
         ]
+
         temporary_dataframe = pd.DataFrame([dictionary])[columns]
         is_file_empty = os.path.exists(output_path) and os.stat(output_path).st_size == 0
         temporary_dataframe.to_csv(
@@ -135,18 +129,10 @@ def main() -> int:
 
 
 if __name__ == '__main__':
-    input_path = r'..\data\Zhongwen-Words(6).txt'
-    output_path = r'..\data\output_6.csv'
-    # input_path = r'..\data\input.txt'
-    # output_path = r'..\data\output.csv'
+    input_path = r'..\data\input.txt'
+    output_path = r'..\data\output_7.csv'
 
-    finished = False
-    while not finished:
-        try:
-            script(
-                input_path=input_path,
-                output_path=output_path,
-            )
-            finished = True
-        except (requests.exceptions.ProxyError, requests.exceptions.SSLError):
-            pass
+    script(
+        input_path=input_path,
+        output_path=output_path,
+    )
