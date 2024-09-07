@@ -7,21 +7,42 @@ This package automates the process of:
 2. Processing the generated content using Python scripts to format the data into Anki flashcards.
 3. Adding useful tone markings on Chinese characters and providing fields such as **pinyin**, **translations**, **example sentences**, and **synonyms** to facilitate efficient language learning.
 
-## Card examples
+## Examples
 
-From English to Chinese:
+### From English to Chinese:
 <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
   <img src="resources/en_zh_桥梁_front.jpg" alt="Front" style="width: 30%;">
   <img src="resources/en_zh_桥梁_back.jpg" alt="Back" style="width: 30%;">
   <img src="resources/en_zh_桥梁_back_hidden.jpg" alt="Back Hidden" style="width: 30%;">
 </div>
 
-From Chinese to English:
+### From Chinese to English:
 <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
   <img src="resources/zh_en_下划线_front.jpg" alt="Front" style="width: 30%;">
   <img src="resources/zh_en_下划线_back.jpg" alt="Back" style="width: 30%;">
   <img src="resources/zh_en_下划线_back_hidden.jpg" alt="Back Hidden" style="width: 30%;">
 </div>
+
+## Card details
+
+The card features five buttons that offer useful tools to enrich your learning experience by providing access to additional resources and controls:
+
+1. **Synonyms**:  
+   This button links to Pleco, where it performs a search for synonyms of the main word on the card. It helps you expand your vocabulary by presenting related words with similar meanings.
+
+2. **Dictionary**:  
+   Clicking this button opens Pleco to display the dictionary definition of the main word. It provides detailed information such as meanings, examples, and related terms.
+
+3. **Unhide**:  
+   The "Unhide" button reveals or hides specific hidden elements on the card, such as pinyin and color-coded examples for both the dictionary and sentence sections. It allows you to challenge yourself by trying to pronounce the word or sentence tones before revealing the correct pinyin.
+
+4. **Word**:  
+   This button searches for the word itself in Pleco, providing detailed information about its usage, pronunciation, and meaning, including its appearance in different dictionary contexts.
+
+5. **Sentence**:  
+   This button links to Pleco, showing a search result for the example sentence on the card. It gives further context for the word by illustrating how it's used in real sentences.
+
+These buttons seamlessly integrate with the Pleco dictionary app, giving you quick access to detailed explanations, synonyms, and contextual examples to support your Chinese learning journey.
 
 ## Workflow
 
