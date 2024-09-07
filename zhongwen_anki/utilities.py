@@ -92,16 +92,6 @@ def replace_extra_space(sentence: str): # todo ask chatgpt to make it better
     return output
 
 
-if __name__ == '__main__':
-    characters = '全球定位系统'
-    pinyin = 'quán qiú dìng wèi xì tǒng'
-    result = get_marked_characters(characters)
-    print(pinyin)
-    print(result)
-
-    characters = '全球定位系统'
-    pinyin = 'quán qiú  dìng wèi  xì tǒng'
-    print(replace_extra_space(pinyin))
 
 
 def process_synonyms(synonym_string: str) -> str:
@@ -129,3 +119,14 @@ def process_synonyms(synonym_string: str) -> str:
 
     # Join processed synonyms back into a string with <br> separators
     return '<br>'.join(processed_synonyms)
+
+if __name__ == '__main__':
+    characters = '全球定位系统'
+    pinyin = 'quán qiú dìng wèi xì tǒng'
+    result = get_marked_characters(characters)
+    print(pinyin)
+    print(result)
+
+    characters = '全球定位系统'
+    pinyin = 'quán qiú  dìng wèi  xì tǒng'
+    print(replace_extra_space(pinyin))
