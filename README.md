@@ -56,7 +56,7 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
      - The deck will be added to your Anki collection, ready for use.
 
 3. **Prepare the List of Words**:
-   - Create a text file containing a list of Chinese words you want to study. This file will serve as input for generating detailed flashcard content using a large language model (LLM) like ChatGPT.
+   - Create a text file containing a list of Chinese words you want to study. This file will serve as input for generating detailed flashcard content using a large language model. I personally use the [Zhongwen Browser Extension](#additional-tools) to gather the vocabulary.
    - Example of the format for the word list:
      ```plaintext
      向量 vector
