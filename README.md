@@ -11,16 +11,16 @@ This package automates the process of:
 
 ### From English to Chinese:
 <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-  <img src="resources/en_zh_桥梁_front.jpg" alt="Front" style="width: 30%;">
-  <img src="resources/en_zh_桥梁_back_hidden.jpg" alt="Back Hidden" style="width: 30%;">
-  <img src="resources/en_zh_桥梁_back.jpg" alt="Back" style="width: 30%;">
+  <img src="resources/en_zh_桥梁_front.jpg" alt="Front" style="width: 32%;">
+  <img src="resources/en_zh_桥梁_back_hidden.jpg" alt="Back Hidden" style="width: 32%;">
+  <img src="resources/en_zh_桥梁_back.jpg" alt="Back" style="width: 32%;">
 </div>
 
 ### From Chinese to English:
 <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-  <img src="resources/zh_en_下划线_front.jpg" alt="Front" style="width: 30%;">
-  <img src="resources/zh_en_下划线_back_hidden.jpg" alt="Back Hidden" style="width: 30%;">
-  <img src="resources/zh_en_下划线_back.jpg" alt="Back" style="width: 30%;">
+  <img src="resources/zh_en_下划线_front.jpg" alt="Front" style="width: 32%;">
+  <img src="resources/zh_en_下划线_back_hidden.jpg" alt="Back Hidden" style="width: 32%;">
+  <img src="resources/zh_en_下划线_back.jpg" alt="Back" style="width: 32%;">
 </div>
 
 ## Card details
@@ -66,7 +66,7 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
      ```
 
 4. **LLM Query**:
-   - Use the following prompt with an LLM (such as ChatGPT) to generate the necessary content for each word in your list:
+   - Use the following prompt with an LLM (such as ChatGPT) to generate the necessary content for each word in your list. You can do that by copying the following prompt, append the word list at the end, and send it manually in an LLM conversation such as on [ChatGPT](https://chatgpt.com/?model=gpt-4o).
 
    ~~~plaintext
    ### Prompt:
