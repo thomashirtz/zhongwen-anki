@@ -40,7 +40,7 @@ mark.tone-5 {color:#9e9e9e; background: none;}
 .synonyms{font-family: SimSun; font-size:20px; text-align:left; color:grey; display: block}
 .synonymsColored{font-family: SimSun; font-size:20px; text-align:left; color:grey; display: none}
 
-.bottomcontrols{bottom: 13px; position: fixed; left: 0; right: 0; margin-left: auto; margin-right: auto; width:380px;border: 5px solid #3c3c3c; background-color: #3c3c3c !Important;overflow:hidden;text-align: center}
+.bottomcontrols{bottom: 13px; position: fixed; left: 0; right: 0; margin-left: auto; margin-right: auto; width:380px;border: 5px solid #3c3c3c; background-color: #3c3c3c !Important;overflow:hidden;text-align: center; color: lightgrey}
 .controlPleco{font-family: Georgia; font-size: 14px;  display:inline-block; margin-right:0px;}
 .controlSoundSentence{font-family: Georgia; font-size: 14px;  display:inline-block; margin-right:0px; display:inline-block;width:40px;border: 0px solid #000; text-align: center}
 .controlSoundWord{font-family: Georgia; font-size: 14px;  display:inline-block; margin-right:0px;display:inline-block;width:40px;border: 0px solid #000; text-align: center}
