@@ -1,9 +1,9 @@
 # Chinese Card Generator
 
-The **Chinese Card Generator** is a Python package designed to streamline the process of creating **Anki flashcards** for learning Chinese. It combines **ChatGPT**-generated content with customized Python processing to turn lists of Chinese words into formatted Anki cards, making it easier to review and learn new Chinese vocabulary.
+The **Chinese Card Generator** is a Python package designed to streamline the process of creating **Anki flashcards** for learning Chinese. It combines **LLM**-generated content with customized Python processing to turn lists of Chinese words into formatted Anki cards, making it easier to review and learn new Chinese vocabulary.
 
 This package automates the process of:
-1. Taking a list of Chinese words and requesting **ChatGPT** to generate related content such as example sentences, synonyms, and dictionary definitions.
+1. Taking a list of Chinese words and requesting an **LLM** (such as ChatGPT) to generate related content such as example sentences, synonyms, and dictionary definitions.
 2. Processing the generated content using Python scripts to format the data into Anki flashcards.
 3. Adding useful tone markings on Chinese characters and providing fields such as **pinyin**, **translations**, **example sentences**, and **synonyms** to facilitate efficient language learning.
 
@@ -66,7 +66,7 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
      ```
 
 4. **LLM Query**:
-   - Use the following prompt with ChatGPT (or another LLM) to generate the necessary content for each word in your list:
+   - Use the following prompt with an LLM (such as ChatGPT) to generate the necessary content for each word in your list:
 
    ~~~plaintext
    ### Prompt:
@@ -123,7 +123,7 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
    This will generate a table with all necessary fields for the flashcards.
 
 5. **Data Processing**:
-   - Once you receive the generated data from ChatGPT, save it as a `.tsv` file and process it with the `zhongwen-anki` package:
+   - Once you receive the generated data from the LLM, save it as a `.tsv` file and process it with the `zhongwen-anki` package:
      ```bash
      zhongwen-anki -i 'input_file_path' -o 'output_file_path'
      ```
