@@ -227,6 +227,14 @@ Install the package from the repository:
 pip install git+https://github.com/thomashirtz/zhongwen-anki#egg=zhongwen-anki
 ```
 
+## Buy me a coffee ツ
+
+If this repository helped you or you if you like this project, feel free to support me!  
+
+<a href="https://www.paypal.com/donate/?hosted_button_id=2KQR9V6PRSBPC">
+  <img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" alt="Donate with PayPal" width="180" />
+</a>
+
 ## License
 
 ```
