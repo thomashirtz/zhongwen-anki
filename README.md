@@ -66,7 +66,7 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
      ```
 
 4. **LLM Query**:
-   - Use the following prompt with an LLM (such as ChatGPT) to generate the necessary content for each word in your list. You can do that by copying the following prompt, append the word list at the end, and send it manually in an LLM conversation such as on [ChatGPT](https://chatgpt.com/?model=gpt-4o).
+   - Use the following prompt with an LLM to generate the necessary content for each word in your list. You can do that by copying the following prompt, append the word list at the end, and send it manually in an LLM conversation such as on [ChatGPT](https://chatgpt.com/?model=gpt-4o).
 
    ~~~plaintext
    ### Prompt:
