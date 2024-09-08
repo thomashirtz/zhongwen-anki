@@ -49,6 +49,7 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
 1. **Install Anki**:
    - Download and install the Anki application, available for **Windows**, **macOS**, **Android**, and **iOS** platforms. Visit the [official Anki website](https://apps.ankiweb.net/) to download the version for your device.
    - After installation, consider creating an account to sync your decks across devices.
+   - If you are on Android or iOS, you can install `Pleco` in order to leverage the [buttons](#examples) I created to lookup more in detail the characters.
 
 2. **Import Deck**:
    - To get started, import the `deck.apkg` file into your Anki library:
