@@ -12,15 +12,15 @@ This package automates the process of:
 ### From English to Chinese:
 <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
   <img src="resources/en_zh_桥梁_front.jpg" alt="Front" style="width: 30%;">
-  <img src="resources/en_zh_桥梁_back.jpg" alt="Back" style="width: 30%;">
   <img src="resources/en_zh_桥梁_back_hidden.jpg" alt="Back Hidden" style="width: 30%;">
+  <img src="resources/en_zh_桥梁_back.jpg" alt="Back" style="width: 30%;">
 </div>
 
 ### From Chinese to English:
 <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
   <img src="resources/zh_en_下划线_front.jpg" alt="Front" style="width: 30%;">
-  <img src="resources/zh_en_下划线_back.jpg" alt="Back" style="width: 30%;">
   <img src="resources/zh_en_下划线_back_hidden.jpg" alt="Back Hidden" style="width: 30%;">
+  <img src="resources/zh_en_下划线_back.jpg" alt="Back" style="width: 30%;">
 </div>
 
 ## Card details
