@@ -1,4 +1,2 @@
-requests
 pinyin
 pandas
-deep-translator
