@@ -1,11 +1,11 @@
 # Chinese Card Generator
 
-The **Chinese Card Generator** is a Python package designed to streamline the process of creating **Anki flashcards** for learning Chinese. It combines **LLM**-generated content with customized Python processing to turn lists of Chinese words into formatted Anki cards, making it easier to review and learn new Chinese vocabulary.
+The **Chinese Card Generator** is a Python package designed to streamline the process of creating **Anki flashcards** for learning Chinese. It combines LLM-generated content with customized Python processing to turn lists of Chinese words into formatted Anki cards, making it easier to review and learn new Chinese vocabulary.
 
-This package automates the process of:
-1. Taking a list of Chinese words and requesting an **LLM** (such as ChatGPT) to generate related content such as example sentences, synonyms, and dictionary definitions.
-2. Processing the generated content using Python scripts to format the data into Anki flashcards.
-3. Adding useful tone markings on Chinese characters and providing fields such as **pinyin**, **translations**, **example sentences**, and **synonyms** to facilitate efficient language learning.
+This package assists in:
+1. Requesting an LLM to generate related content, including example sentences, synonyms, and dictionary definitions, for a list of Chinese words.
+2. Processing the generated content using Python scripts to format it into Anki-compatible flashcards.
+3. Adding helpful tone markings on Chinese characters and generating fields such as **pinyin**, **translations**, **example sentences**, and **synonyms** to enhance language learning.
 
 ## Examples
 
