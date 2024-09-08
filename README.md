@@ -121,6 +121,7 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
    ~~~
 
    This will generate a table with all necessary fields for the flashcards.
+   [Here](https://chatgpt.com/share/6513c81e-73af-476b-b6d8-cffaeb83652f) is an example of conversation to get the word list. Also [`./data/input.tsv`](./data/input.tsv) is an example of word list generated.
 
 5. **Data Processing**:
    - Once you receive the generated data from the LLM, save it as a `.tsv` file and process it with the `zhongwen-anki` package:
