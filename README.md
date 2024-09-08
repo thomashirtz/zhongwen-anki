@@ -46,17 +46,26 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
 
 ## Workflow
 
-1. **Prepare the List of Words**:
-   Start by preparing a list of Chinese words in a text file format. This list will be used in a LLM query. e.g:
+1. **Install Anki**:
+   - Download and install the Anki application, available for **Windows**, **macOS**, **Android**, and **iOS** platforms. Visit the [official Anki website](https://apps.ankiweb.net/) to download the version for your device.
+   - After installation, consider creating an account to sync your decks across devices.
 
-   ```plaintext
-   向量 vector
-   矩阵 matrix
-   ...
-   ```
+2. **Import Deck**:
+   - To get started, import the `deck.apkg` file into your Anki library:
+     - In Anki, go to `File > Import` and select the `deck.apkg` file.
+     - The deck will be added to your Anki collection, ready for use.
 
-2. **LLM Query**:
-   Use the following prompt to generate the necessary content for each word in the list using ChatGPT or any other LLM:
+3. **Prepare the List of Words**:
+   - Create a text file containing a list of Chinese words you want to study. This file will serve as input for generating detailed flashcard content using a large language model (LLM) like ChatGPT.
+   - Example of the format for the word list:
+     ```plaintext
+     向量 vector
+     矩阵 matrix
+     ...
+     ```
+
+4. **LLM Query**:
+   - Use the following prompt with ChatGPT (or another LLM) to generate the necessary content for each word in your list:
 
    ~~~plaintext
    ### Prompt:
@@ -110,20 +119,90 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
    <<WORD LIST HERE>>
    ~~~
 
-   This will generate a table containing all the necessary fields required for the flashcards.
+   This will generate a table with all necessary fields for the flashcards.
+
+5. **Data Processing**:
+   - Once you receive the generated data from ChatGPT, save it as a `.tsv` file and process it with the `zhongwen-anki` package:
+     ```bash
+     zhongwen-anki -i 'input_file_path' -o 'output_file_path'
+     ```
+   - Replace `input_file_path` with the path to your input `.tsv` file and `output_file_path` with your desired output path for the processed data.
+
+6. **Import Processed Data into Anki**:
+   - Import the processed `.tsv` file into Anki by selecting `File > Import` and choosing the file. Make sure the fields are correctly mapped before importing.
+
+7. **Start Learning**:
+   - Begin reviewing your new flashcards. Adjust your Anki settings for optimal learning based on your preferences (see recommendations below).
 
 
-3. **Data Processing**:
-   After receiving the generated data from ChatGPT, save the data in a file and use the `zhongwen-anki` package to process the data.
-   ```bash
-   zhongwen-anki -i 'input_file_path' -o 'output_file_path'
-   ```
+## Anki Settings
 
-   The input file path refers to the file with the word list or the table data, and the output file path will contain the processed Anki-ready data.
+Since learning vocabulary can take time, it’s important to optimize your Anki settings for effective review sessions. 
 
+<details>
+ 
+<summary>Here is my deck setting (it is tailored made and should be tuned at your liking)</summary>
+ 
+```
+ # Daily Limits
+ New cards/day = 5
+ Maximum reviews/day = 100
+ 
+ # New Cards
+ Learning steps = 1m 10m 1d 6d
+ Graduating interval = 7
+ Easy interval = 10
+ Insertion order = Random
+ 
+ # Lapses
+ Relearning steps = 10m 20m
+ Minimum interval = 2
+ Leech threshold = 5
+ Leech action = Tag Only
+ 
+ # Advanced
+ Maximum interval = 365
+ Starting ease = 2.50
+ Easy bonus = 1.30
+ Interval modifier = 1.10
+ Hard interval = 1.20
+ New interval = 0.80
+```
+ 
+</details>
 
-4. Import the generated output CSV into Anki, and you are ready to start reviewing your new Chinese flashcards!
+You can further adjust these settings based on your progress and preferences. For more in-depth guidance on customizing Anki, check out these resources:
+- [Guide to Anki Intervals and Learning Steps](https://youtu.be/1XaJjbCSXT0)
+- [Other Anki Tutorials](https://www.youtube.com/results?search_query=anki+guide)
 
+---
+
+## Anki Add-ons
+
+Here are some recommended Anki add-ons to enhance your learning experience:
+
+- **[Auto Ease Factor](https://ankiweb.net/shared/info/1672712021)** or **[Reset Ease](https://ankiweb.net/shared/info/947935257)**: These add-ons help prevent you from falling into [Ease Hell](https://www.youtube.com/watch?v=roR8S9zjUh8), where cards become harder to review due to the scheduling algorithm.
+- **[Review Heatmap](https://ankiweb.net/shared/info/1771074083)**: Visualize your past and future review activity with this helpful heatmap, which can motivate you to stay consistent.
+
+You can find additional add-ons on the [Anki add-ons page](https://ankiweb.net/shared/addons/2.1).
+
+## Additional Tools
+
+[Zhongwen Browser Extension](https://github.com/cschiller/zhongwen) is a Chinese pop-up dictionary available for browsers like Chrome and Firefox. It’s an excellent tool for quickly translating Chinese words by hovering over them with your mouse.
+
+- **Quick Vocabulary Addition**: Press `R` while hovering over a word to instantly add it to your vocabulary list.
+- **Access Your List**: Use `Alt + W` to view the vocabulary list you've built.
+
+This tool is especially useful for quickly identifying and understanding new Chinese words as you browse the web. Additionally, it’s great for **easily creating a list of words** that can be used in the tool you’re setting up. By building a personalized vocabulary list as you encounter new words, you can seamlessly integrate these words into the flashcard generation process, making it easier to create your own Anki deck.
+---
+
+## Notes
+
+- **Card Themes**: Although the cards should function in various themes (light, plain, dark), they are specifically optimized for the **black theme** in Anki. Consider switching to the black theme for the best experience.
+- **Anki Scheduling**: Anki's scheduling system is crucial to effective learning. Be sure to explore and customize the intervals, learning steps, and other settings to match your personal learning style. This can significantly improve retention and reduce burnout.
+  - Customize the number of new cards per day and review limits based on your time commitment and learning capacity.
+  - Regularly assess your progress and adjust settings like ease and intervals to optimize long-term retention.
+- **Deck Backup**: Always back up your Anki decks regularly to prevent data loss. Use Anki’s sync feature with AnkiWeb, or manually export `.apkg` files.
 
 ## Data Fields for Review
 
