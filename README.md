@@ -175,8 +175,6 @@ You can further adjust these settings based on your progress and preferences. Fo
 - [Guide to Anki Intervals and Learning Steps](https://youtu.be/1XaJjbCSXT0)
 - [Other Anki Tutorials](https://www.youtube.com/results?search_query=anki+guide)
 
----
-
 ## Anki Add-ons
 
 Here are some recommended Anki add-ons to enhance your learning experience:
@@ -194,7 +192,6 @@ You can find additional add-ons on the [Anki add-ons page](https://ankiweb.net/s
 - **Access Your List**: Use `Alt + W` to view the vocabulary list you've built.
 
 This tool is especially useful for quickly identifying and understanding new Chinese words as you browse the web. Additionally, it’s great for **easily creating a list of words** that can be used in the tool you’re setting up. By building a personalized vocabulary list as you encounter new words, you can seamlessly integrate these words into the flashcard generation process, making it easier to create your own Anki deck.
----
 
 ## Notes
 
