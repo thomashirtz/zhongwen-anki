@@ -22,12 +22,12 @@ def add_mark(character: str, tone: str) -> str:
     return f'<mark class="{tone}">{character}</mark>'
 
 
-def mark_character_with_tone(char: str, pinyin: str, tone_map: dict) -> str:
+def mark_character_with_tone(character: str, pinyin: str, tone_map: dict) -> str:
     """
     Marks a character with the appropriate tone based on the corresponding pinyin.
 
     Args:
-        char (str): The character to be marked.
+        character (str): The character to be marked.
         pinyin (str): The corresponding pinyin, which contains tone-marked vowels.
         tone_map (dict): A dictionary mapping tones to lists of vowels.
 
@@ -36,8 +36,8 @@ def mark_character_with_tone(char: str, pinyin: str, tone_map: dict) -> str:
     """
     for tone, vowels in tone_map.items():
         if contains(pinyin, vowels):
-            return add_mark(char, tone)  # Mark the character with the identified tone
-    return char  # If no tone is found, return the character as-is
+            return add_mark(character, tone)  # Mark the character with the identified tone
+    return character  # If no tone is found, return the character as-is
 
 
 def get_marked_characters(characters: str, pinyin: Optional[str] = None) -> str:
@@ -51,20 +51,20 @@ def get_marked_characters(characters: str, pinyin: Optional[str] = None) -> str:
     Returns:
         str: The characters wrapped with tone-specific HTML <mark> tags.
     """
-    char_list = list(characters)
+    character_list = list(characters)
 
     # If no pinyin is provided, generate pinyin for each character
     if pinyin is None:
-        pinyin_list = [get_pinyin(c) if is_chinese_character(c) else None for c in char_list if c != '']
+        pinyin_list = [get_pinyin(c) if is_chinese_character(c) else None for c in character_list if c != '']
     else:
         pinyin_list = split_by_single_and_double_spaces(pinyin)
 
-    preprocessed_chars = introduce_spaces_to_characters(char_list, pinyin_list)
+    preprocessed_chars = introduce_spaces_to_characters(character_list, pinyin_list)
 
-    marked_result = "".join(
-        mark_character_with_tone(c, p, tone_to_vowel_list)
-        for c, p in zip(preprocessed_chars, pinyin_list)
-    )
+    marked_result = ""
+    for char, pinyin in zip(preprocessed_chars, pinyin_list):
+        marked_result += mark_character_with_tone(char, pinyin, tone_to_vowel_list)
+
     return marked_result
 
 
@@ -111,28 +111,28 @@ def is_chinese_character(char: str) -> bool:
     return any(start <= char <= end for start, end in ranges)
 
 
-def introduce_spaces_to_characters(chars: List[str], pinyin: List[str]) -> List[str]:
+def introduce_spaces_to_characters(character_list: List[str], pinyin_list: List[str]) -> List[str]:
     """
     Introduces spaces into a list of characters based on the spaces found in the corresponding pinyin list.
 
     Args:
-        chars (List[str]): A list of characters (e.g., Chinese characters) to be processed.
-        pinyin (List[str]): A list of pinyin strings that may contain spaces.
+        character_list (List[str]): A list of characters (e.g., Chinese characters) to be processed.
+        pinyin_list (List[str]): A list of pinyin strings that may contain spaces.
 
     Returns:
         List[str]: A new list of characters with spaces introduced according to the pinyin list.
     """
     result = []
-    char_index = 0
+    character_index = 0
 
-    for p in pinyin:
-        if p == ' ':  # Space in pinyin
+    for pinyin in pinyin_list:
+        if pinyin == ' ':  # Space in pinyin
             result.append(' ')
-            if chars[char_index] == ' ':
-                char_index += 1  # Skip if both are spaces
+            if character_list[character_index] == ' ':
+                character_index += 1  # Skip if both are spaces
         else:
-            result.append(chars[char_index])
-            char_index += 1
+            result.append(character_list[character_index])
+            character_index += 1
 
     return result
 
