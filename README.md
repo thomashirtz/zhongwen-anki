@@ -65,7 +65,57 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
      ...
      ```
 
-4. **LLM Query**:
+    a
+
+4. **Seed list creation**:
+
+    ~~~plaintext
+    ### Prompt for Seed List Creation:
+   
+    Please create a verified list of Chinese words, ensuring accuracy and clarity in each entry. For each word:
+    
+        1. **Double-check the Chinese characters** (both simplified and traditional, if applicable).
+        2. **Confirm the pinyin transcription**, ensuring proper spacing and tone markings.
+        3. **Provide a concise English translation** (e.g., one or two words) that reflects the most common meaning of the word in context.
+
+    Exclude any words that are:
+        - Unclear, ambiguous, or have meanings that are not straightforward.
+        - Rare, overly technical, or context-dependent in ways that might not be intuitive.
+
+    The final table should have the following columns:
+
+        1. **Simplified Characters**: The simplified version of the Chinese characters.
+        2. **Traditional Characters**: The traditional version of the Chinese characters.
+        3. **Pinyin**: The pinyin transcription of the Chinese word, with **one space** between each syllable and **proper tone markings**.
+        4. **Meaning**: A simple, clear English translation in one or two words.
+
+    Use the provided list as input, and output only those entries that are confirmed to be accurate and clear.
+
+    ---
+
+    ### Example Input
+
+        - 启用 (invoke)
+        - 大型 (large-scale)
+        - 深奥 (profound)
+
+    ---
+
+    ### Example Output
+
+    ```
+    Simplified Characters	Traditional Characters	Pinyin	Meaning
+    启用	啟用	qǐ yòng	invoke
+    大型	大型	dà xíng	large-scale
+    深奥	深奧	shēn ào	profound
+    ```
+   
+    ### Word List
+
+    <<WORD LIST HERE>>
+    ~~~
+
+5. **LLM Query**:
    - Use the following prompt with an LLM to generate the necessary content for each word in your list. You can do that by copying the following prompt, append the word list at the end, and send it manually in an LLM conversation such as on [ChatGPT](https://chatgpt.com/?model=gpt-4o).
 
    ~~~plaintext
@@ -123,17 +173,17 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
    This will generate a table with all necessary fields for the flashcards.
    [Here](https://chatgpt.com/share/6513c81e-73af-476b-b6d8-cffaeb83652f) is an example of conversation to get the word list. Also [`./data/input.tsv`](./data/input.tsv) is an example of word list generated.
 
-5. **Data Processing**:
+6. **Data Processing**:
    - Once you receive the generated data from the LLM, save it as a `.tsv` file and process it with the `zhongwen-anki` package:
      ```bash
      zhongwen-anki -i 'input_file_path' -o 'output_file_path'
      ```
    - Replace `input_file_path` with the path to your input `.tsv` file and `output_file_path` with your desired output path for the processed data.
 
-6. **Import Processed Data into Anki**:
+7. **Import Processed Data into Anki**:
    - Import the processed `.tsv` file into Anki by selecting `File > Import` and choosing the file. Make sure the fields are correctly mapped before importing.
 
-7. **Start Learning**:
+8. **Start Learning**:
    - Begin reviewing your new flashcards. Adjust your Anki settings for optimal learning based on your preferences (see recommendations below).
 
 
