@@ -55,15 +55,19 @@ def get_marked_characters(characters: str, pinyin: Optional[str] = None) -> str:
 
     # If no pinyin is provided, generate pinyin for each character
     if pinyin is None:
-        pinyin_list = [get_pinyin(c) if is_chinese_character(c) else None for c in character_list if c != '']
+        pinyin_list = [get_pinyin(c) if is_chinese_character(c) else None for c in character_list if c != '']  # TODO fix issue with None not compatible with other part of the program.
     else:
         pinyin_list = split_by_single_and_double_spaces(pinyin)
 
-    preprocessed_chars = introduce_spaces_to_characters(character_list, pinyin_list)
+    preprocessed_character_list = introduce_spaces_to_characters(character_list, pinyin_list)
 
+    pinyin_index = 0
     marked_result = ""
-    for char, pinyin in zip(preprocessed_chars, pinyin_list):
-        marked_result += mark_character_with_tone(char, pinyin, tone_to_vowel_list)
+
+    for character in preprocessed_character_list:
+        current_pinyin = pinyin_list[pinyin_index]
+        pinyin_index += 1
+        marked_result += mark_character_with_tone(character, current_pinyin, tone_to_vowel_list)
 
     return marked_result
 
@@ -216,12 +220,8 @@ def process_synonyms(synonym_string: str) -> str:
 
 
 if __name__ == '__main__':
-    example_characters = '全球定位系统'
-    example_pinyin = 'quán qiú dìng wèi xì tǒng'
+    example_characters = '即使失败了，他也不会放弃。'
+    example_pinyin = 'jí shǐ  shī bài le , tā  yě  bú huì  fàng qì .'
     marked_result = get_marked_characters(example_characters, example_pinyin)
     print(example_pinyin)
     print(marked_result)
-
-    example_pinyin_with_spaces = 'quán qiú  dìng wèi  xì tǒng'
-    cleaned_pinyin = replace_extra_space(example_pinyin_with_spaces)
-    print(cleaned_pinyin)
