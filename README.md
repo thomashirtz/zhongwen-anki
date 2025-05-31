@@ -127,10 +127,10 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
    2.  **Traditional Characters**: The traditional version of the Chinese characters.
    3.  **Pinyin**: The pinyin transcription of the Chinese word, with **one space** between each syllable. If the word consists of multiple distinct conceptual parts that are often spaced in dictionaries (e.g., '全球定位系统' which is 'quán qiú dìng wèi xì tǒng'), use **two spaces** to separate these parts (e.g., 'quán qiú  dìng wèi  xì tǒng'). For most common words (e.g. '银行', '朋友'), single spaces between syllables are sufficient (e.g., 'yín háng', 'péng you').
    4.  **Meaning**: The English meaning or translation of the word.
-   5.  **Sentence Example**: A simple example sentence using the word in Chinese. Ensure this sentence provides good context for the word, especially if it's a polyphonic character. Insert a single space between each Chinese word in the sentence.
+   5.  **Sentence Example**: A simple example sentence using the word in Chinese. Ensure this sentence provides good context for the word, especially if it's a polyphonic character. 
    6.  **Sentence Meaning**: The English translation of the example sentence.
    7.  **Synonym**: Up to three synonyms for the word, formatted as "SimplifiedCharacters (Pinyin) - Translation", separated by `<br>`. The pinyin in parentheses here should be for the synonym itself.
-   8.  **DictionarySimplified**: A short definition of the word in Chinese characters, giving a brief explanation of the term's meaning. Insert a single space between each Chinese word in the sentence.
+   8.  **DictionarySimplified**: A short definition of the word in Chinese characters, giving a brief explanation of the term's meaning.
    9.  **DictionaryMeaning**: The English translation of the definition, giving a brief explanation of the term's meaning.
    
    Use the above structure to create the table for each entry from the provided list of words.
@@ -159,14 +159,13 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
    
    ### Tips for Generating the Table:
    
-   1.  **Ensure Pinyin Formatting (for main word)**: For the main word's `Pinyin` (column 3), use one space between syllables. For multi-component words like '全球定位系统', use two spaces between major components like 'quán qiú dìng wèi xì tǒng'.
-   2.  **Contextual Example Sentences**: The `Sentence Example` should clearly demonstrate the usage of the word, which is especially important for words with multiple meanings or pronunciations (polyphonic characters). The sentence should help infer the correct context.
-   3.  **Synonym Formatting**: For the `Synonym` column, ensure each synonym follows the "SimplifiedCharacters (Pinyin) - Translation" format, with `<br>` separating multiple synonyms.
-   4.  **Short but Descriptive Definitions**: The `DictionarySimplified` and `DictionaryMeaning` columns should provide concise but informative definitions.
-   5.  **Accuracy**: Make sure traditional and simplified characters are accurately paired, and translations and meanings reflect the specific terms.
-   6.  **Simplicity in Sentences**: For `Sentence Example`, do not put any special characters or numbers beyond standard Chinese characters, commas (，), and full stops (。). This helps avoid processing issues.
-   7.  **Word Spacing in Chinese Text**: For `Sentence Example` and `DictionarySimplified`, **insert a single space between all Chinese words**.
-   8.  **Formatting**: Return only the table, exactly the way I formatted the output, with a tab separating the entries.
+   1.  **Contextual Example Sentences**: The `Sentence Example` should clearly demonstrate the usage of the word, which is especially important for words with multiple meanings or pronunciations (polyphonic characters). The sentence should help infer the correct context.
+   2.  **Synonym Formatting**: For the `Synonym` column, ensure each synonym follows the "SimplifiedCharacters (Pinyin) - Translation" format, with `<br>` separating multiple synonyms.
+   3.  **Short but Descriptive Definitions**: The `DictionarySimplified` and `DictionaryMeaning` columns should provide concise but informative definitions.
+   4.  **Accuracy**: Make sure traditional and simplified characters are accurately paired, and translations and meanings reflect the specific terms.
+   5.  **Simplicity in Sentences**: For `Sentence Example`, do not put any special characters or numbers beyond standard Chinese characters, commas (，), and full stops (。). This helps avoid processing issues.
+   6.  **Word Spacing in Chinese Text**: For `Sentence Example` and `DictionarySimplified`, **insert a single space between all Chinese words**.
+   7.  **Formatting**: Return only the table, exactly the way I formatted the output, with a tab separating the entries.
    
    ### Word List
 
