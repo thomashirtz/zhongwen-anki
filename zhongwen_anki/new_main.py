@@ -22,24 +22,24 @@ def _transform_row(row: pd.Series) -> dict:
 
     return {
         # primary fields
-        "Simplified": row["Simplified"],
-        "SimplifiedColored": words_to_coloured_html(simplified_words),
-        "Traditional": row["Traditional"],
-        "TraditionalColored": words_to_coloured_html(traditional_words),
-        "Pinyin": row["Pinyin"],
+        "Simplified": row["Simplified"], # keep formatting as it is given
+        "SimplifiedColored": words_to_coloured_html(simplified_words),  # keep formatting as it is given + color on character
+        "Traditional": row["Traditional"],  # keep formatting as it is given
+        "TraditionalColored": words_to_coloured_html(traditional_words), # keep formatting as it is given + color on character
+        "Pinyin": row["Pinyin"], # single space between syllables
         "Meaning": row["Meaning"],
         "Hint": row["Simplified"][0],
         # sentence
-        "SentenceSimplified": words_to_simplified(sentence_words),
-        "SentenceSimplifiedColored": words_to_coloured_html(sentence_words),
+        "SentenceSimplified": words_to_simplified(sentence_words), # keep formatting
+        "SentenceSimplifiedColored": words_to_coloured_html(sentence_words),  # single space between words
         "SentenceMeaning": row["SentenceMeaning"],
-        "SentencePinyin": words_to_pinyin(sentence_words),
+        "SentencePinyin": words_to_pinyin(sentence_words), # single space between words
         # synonyms
         "Synonyms": row["Synonyms"],
-        "SynonymsColored": process_synonyms(row["Synonyms"]),
+        "SynonymsColored": process_synonyms(row["Synonyms"]),  # keep formatting as it is given + color on character
         # dictionary
-        "DictionarySimplified": words_to_simplified(dictionary_words),
-        "DictionarySimplifiedColored": words_to_coloured_html(dictionary_words),
+        "DictionarySimplified": words_to_simplified(dictionary_words), # keep formatting
+        "DictionarySimplifiedColored": words_to_coloured_html(dictionary_words), # single space between words
         "DictionaryPinyin": words_to_pinyin(dictionary_words),
         "DictionaryMeaning": row["DictionaryMeaning"],
     }
