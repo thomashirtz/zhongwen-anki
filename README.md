@@ -125,7 +125,7 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
    
    1.  **Simplified Characters**: The simplified version of the Chinese characters.
    2.  **Traditional Characters**: The traditional version of the Chinese characters.
-   3.  **Pinyin**: The pinyin transcription of the Chinese word, with **one space** between each syllable. If the word consists of multiple distinct conceptual parts that are often spaced in dictionaries (e.g., '全球定位系统' which is 'quán qiú dìng wèi xì tǒng'), use **two spaces** to separate these parts (e.g., 'quán qiú  dìng wèi  xì tǒng'). For most common words (e.g. '银行', '朋友'), single spaces between syllables are sufficient (e.g., 'yín háng', 'péng you').
+   3.  **Pinyin**: The pinyin transcription of the Chinese word, with **one space** between each words.
    4.  **Meaning**: The English meaning or translation of the word.
    5.  **Sentence Example**: A simple example sentence using the word in Chinese. Ensure this sentence provides good context for the word, especially if it's a polyphonic character. 
    6.  **Sentence Meaning**: The English translation of the example sentence.
@@ -150,7 +150,7 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
    ### Example Output
    
    ```tsv
-   Simplified Characters	Traditional Characters	Pinyin	Meaning	Sentence Example	Sentence Meaning	Synonym	DictionarySimplified	DictionaryMeaning
+   Simplified	Traditional	Pinyin	Meaning	SentenceSimplified	SentenceMeaning	Synonyms	DictionarySimplified	DictionaryMeaning
    向量	向量	xiàng liàng	vector	我们需要计算这个向量的长度。	We need to calculate the length of this vector.	矢量 (shǐ liàng) - vector<br>量向 (liàng xiàng) - vector	数学中用于表示方向和大小的对象	object used in mathematics to represent direction and magnitude
    矩阵	矩陣	jǔ zhèn	matrix	这个矩阵的行列式为零。	The determinant of this matrix is zero.	方阵 (fāng zhèn) - square matrix	由数或变量排列成的矩形阵列	rectangle array formed by numbers or variables
    ```
@@ -164,7 +164,7 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
    3.  **Short but Descriptive Definitions**: The `DictionarySimplified` and `DictionaryMeaning` columns should provide concise but informative definitions.
    4.  **Accuracy**: Make sure traditional and simplified characters are accurately paired, and translations and meanings reflect the specific terms.
    5.  **Simplicity in Sentences**: For `Sentence Example`, do not put any special characters or numbers beyond standard Chinese characters, commas (，), and full stops (。). This helps avoid processing issues.
-   6.  **Word Spacing in Chinese Text**: For `Sentence Example` and `DictionarySimplified`, **insert a single space between all Chinese words**.
+   6.  **Word Spacing in Chinese Text**: For `Sentence Example` and `DictionarySimplified`.
    7.  **Formatting**: Return only the table, exactly the way I formatted the output, with a tab separating the entries.
    
    ### Word List
