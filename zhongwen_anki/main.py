@@ -31,7 +31,7 @@ def _transform_row(row: pd.Series) -> dict:
         "Hint": row["Simplified"][0],
         # Sentence
         "SentenceSimplified": words_to_hanzi(sentence_words),
-        "SentenceSimplifiedColored": words_to_colored_hanzi(sentence_words, sep=" "),
+        "SentenceSimplifiedColored": words_to_colored_hanzi(sentence_words, sep=""),
         "SentenceMeaning": row["SentenceMeaning"],
         "SentencePinyin": words_to_pinyin(sentence_words),
         # Synonyms
@@ -39,7 +39,7 @@ def _transform_row(row: pd.Series) -> dict:
         "SynonymsColored": process_synonyms(row["Synonyms"]),
         # Dictionary
         "DictionarySimplified": words_to_hanzi(dictionary_words),
-        "DictionarySimplifiedColored": words_to_colored_hanzi(dictionary_words, sep=" "),
+        "DictionarySimplifiedColored": words_to_colored_hanzi(dictionary_words, sep=""),
         "DictionaryPinyin": words_to_pinyin(dictionary_words),
         "DictionaryMeaning": row["DictionaryMeaning"],
     }
