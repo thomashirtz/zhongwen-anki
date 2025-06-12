@@ -1,23 +1,23 @@
 import html
 from dataclasses import dataclass
 from typing import List, Callable
+
 import jieba
 from pypinyin import Style, pinyin as _pinyin
-from zhongwen_anki.constants import tone_to_vowel_list, vowel_to_tone
+
 from constants import vowel_to_tone
+
+
 @dataclass(slots=True)
 class Character: # todo maybe change to syllable
-    """One Hanzi plus phonetic information."""
-
     pinyin: str
-    simplified: str # todo remove simplified and change this to character
-    traditional: str # todo remove traditional
+    hanzi: str
     tone: int  # 1‒5 (5 = neutral)
 
-    # ——— convenience ———
-    def simplified_marked(self) -> str:
+    @property
+    def hanzi_marked(self) -> str:
         """Return `<mark class="toneN">char</mark>` with N = self.tone."""
-        return f'<mark class="tone{self.tone}">{html.escape(self.simplified)}</mark>'
+        return f'<mark class="tone{self.tone}">{html.escape(self.hanzi)}</mark>'
 
 
 @dataclass(slots=True)
@@ -33,7 +33,7 @@ def _is_chinese_character(ch: str) -> bool:
     """Return *True* iff *ch* is in any UCS block that contains Hanzi."""
     ranges = (
         ("\u4E00", "\u9FFF"),   # CJK Unified Ideographs
-        ("\u3400", "\u4DBF"),   # Extension A # todo do i need those for chinese ?
+        ("\u3400", "\u4DBF"),   # Extension A
         ("\u20000", "\u2A6DF"), # Extension B
         ("\u2A700", "\u2B73F"), # Extension C
         ("\u2B740", "\u2B81F"), # Extension D
@@ -44,9 +44,9 @@ def _is_chinese_character(ch: str) -> bool:
     return any(start <= ch <= end for start, end in ranges)
 
 
-def _tone_from_tone3(py: str) -> int:
-    """Extract the final digit of a TONE3 syllable; neutral → 5."""
-    for c in reversed(py):
+def _tone_from_numbered_tone(pinyin: str) -> int:
+    """Extract the final digit of a TONE3 syllable; neutral → 5."""
+    for c in reversed(pinyin):
         if c.isdigit():
             return int(c)
     return 5  # neutral / fifth tone
@@ -107,9 +107,8 @@ def sentence_to_words(
                 parts.append(
                     Character(
                         pinyin=py_mark,
-                        simplified=ch,
-                        traditional=ch,
-                        tone=_tone_from_tone3(py_num),
+                        hanzi=ch,
+                        tone=_tone_from_numbered_tone(py_num),
                     )
                 )
                 idx += 1
@@ -122,7 +121,7 @@ def sentence_to_words(
     return words
 
 
-def words_to_simplified(words: List[Word]) -> str:
+def words_to_hanzi(words: List[Word]) -> str:
     """Concatenate `word.raw` across the list."""
     return "".join(word.raw for word in words)
 
@@ -138,17 +137,7 @@ def words_to_pinyin(words: List[Word], *, sep: str = " ") -> str:
     return sep.join(syllables)
 
 
-def words_to_coloured_html_(words: List[Word]) -> str:
-    """Return the sentence with tone‑coloured `<mark>` tags."""
-    buf: List[str] = []
-    for word in words:
-        if word.is_chinese:
-            buf.extend(char.simplified_marked() for char in word.parts)  # type: ignore[arg-type]
-        else:
-            buf.append(html.escape(word.raw))
-    return "".join(buf)
-
-def words_to_coloured_html(
+def words_to_colored_hanzi(
     words: List[Word], *, sep: str = "", escape_non_chinese: bool = True
 ) -> str:
     """Return `sentence_text` where every Hanzi is wrapped in <mark class="toneN">.
@@ -161,7 +150,7 @@ def words_to_coloured_html(
     rendered: List[str] = []
     for word in words:
         if word.is_chinese:
-            rendered.append("".join(char.simplified_marked() for char in word.parts))  # type: ignore[arg-type]
+            rendered.append("".join(char.hanzi_marked for char in word.parts))  # type: ignore[arg-type]
         else:
             rendered.append(html.escape(word.raw) if escape_non_chinese else word.raw)
     return sep.join(rendered)
@@ -180,13 +169,13 @@ def process_synonyms(synonym_string: str) -> str:
         return ""
 
     entries = synonym_string.split("<br>")
-    coloured_entries: List[str] = []
+    colored_entries: List[str] = []
 
     for entry in entries:
         words = sentence_to_words(entry)
-        coloured_entries.append(words_to_coloured_html(words, escape_non_chinese=False))
+        colored_entries.append(words_to_colored_hanzi(words, escape_non_chinese=False))
 
-    return "<br>".join(coloured_entries)
+    return "<br>".join(colored_entries)
 
 
 
@@ -214,7 +203,7 @@ def chars_with_pinyin_to_words(chars: str, pinyin_str: str) -> List[Word]:
         if _is_chinese_character(ch):
             pinyin = pinyin_list[idx] if idx < len(pinyin_list) else ''
             tone = _detect_tone(pinyin)
-            parts.append(Character(pinyin=pinyin, simplified=ch, traditional=ch, tone=tone))
+            parts.append(Character(pinyin=pinyin, hanzi=ch, tone=tone))
         else:
             # keep punctuation as raw str in the same structure
             parts.append(ch)
@@ -227,7 +216,7 @@ if __name__ == '__main__':
         repr_lines = []
         for w in words:
             if w.is_chinese:
-                chars_info = ",".join(f"{c.simplified}({c.pinyin},{c.tone})" for c in w.parts)  # type: ignore[arg-type]
+                chars_info = ",".join(f"{c.hanzi}({c.pinyin},{c.tone})" for c in w.parts)  # type: ignore[arg-type]
                 repr_lines.append(f"CN[{chars_info}]")
             else:
                 repr_lines.append(f"TXT[{w.raw}]")
@@ -252,9 +241,9 @@ if __name__ == '__main__':
         outputs.append({
             "Sentence": sent,
             "WordList": debug_word_repr(words),
-            "Simplified": words_to_simplified(words),
+            "Simplified": words_to_hanzi(words),
             "Pinyin": words_to_pinyin(words),
-            "HTML": words_to_coloured_html(words)
+            "HTML": words_to_colored_hanzi(words)
         })
 
     import pandas as pd
