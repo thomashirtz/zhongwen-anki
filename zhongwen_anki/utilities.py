@@ -1,15 +1,13 @@
 import html
 from dataclasses import dataclass
-from typing import List, Callable
+from typing import List
 
 import jieba
 from pypinyin import Style, pinyin as _pinyin
 
-from constants import vowel_to_tone
-
 
 @dataclass(slots=True)
-class Character: # todo maybe change to syllable
+class Character:
     pinyin: str
     hanzi: str
     tone: int  # 1‒5 (5 = neutral)
@@ -17,7 +15,7 @@ class Character: # todo maybe change to syllable
     @property
     def hanzi_marked(self) -> str:
         """Return `<mark class="toneN">char</mark>` with N = self.tone."""
-        return f'<mark class="tone{self.tone}">{html.escape(self.hanzi)}</mark>'
+        return f'<mark class="tone-{self.tone}">{html.escape(self.hanzi)}</mark>'
 
 
 @dataclass(slots=True)
@@ -54,8 +52,6 @@ def _tone_from_numbered_tone(pinyin: str) -> int:
 
 def sentence_to_words(
     sentence_text: str,
-    *,
-    jieba_cut: Callable[[str], List[str]] = jieba.lcut,
 ) -> List[Word]:
     """
     Segment *sentence_text* into a flat list[Word] while keeping the
@@ -92,7 +88,7 @@ def sentence_to_words(
     pinyin_nums  = [grp[0] for grp in pinyin_nums]
 
     # --- 2 · Jieba segmentation ------------------------------------------
-    tokens = [tok for tok in jieba_cut(sentence_text) if tok]
+    tokens = [tok for tok in jieba.lcut(sentence_text) if tok]
 
     words: List[Word] = []
     idx = 0          # cursor into pinyin_* lists
@@ -121,26 +117,59 @@ def sentence_to_words(
     return words
 
 
-def words_to_hanzi(words: List[Word]) -> str:
+def words_to_hanzi(words: List[Word], sep: str="") -> str:
     """Concatenate `word.raw` across the list."""
-    return "".join(word.raw for word in words)
+    return sep.join(word.raw for word in words)
 
 
-def words_to_pinyin(words: List[Word], *, sep: str = " ") -> str:
-    """Return a pinyin string with tone marks; non‑Chinese segments stay verbatim."""
-    syllables: List[str] = []
+def words_to_pinyin(
+    words: List[Word],
+    *,
+    char_sep: str = "",
+    word_sep: str = " ",
+) -> str:
+    """
+    Convert *words* to a pinyin string.
+
+    Parameters
+    ----------
+    char_sep :
+        Separator inserted **between syllables inside the same Chinese word**.
+        The default (“”) glues the syllables together.
+    word_sep :
+        Separator inserted **between words** (Chinese or otherwise).
+        The default is a single space.
+
+    Returns
+    -------
+    str
+        The pinyin representation with tone marks; non-Chinese substrings
+        are preserved verbatim.
+
+    Notes
+    -----
+    • Setting *char_sep* and *word_sep* to the same value reproduces the
+      original behaviour.
+    • Example:
+        `words_to_pinyin(words, char_sep="", word_sep=" ")`
+        → `"ni shi wo de pengyou"`
+    """
+    segments: List[str] = []
+
     for word in words:
         if word.is_chinese:
-            syllables.extend(char.pinyin for char in word.parts)  # type: ignore[arg-type]
+            syllables = (char.pinyin for char in word.parts)  # type: ignore[arg-type]
+            segments.append(char_sep.join(syllables))
         else:
-            syllables.append(word.raw)
-    return sep.join(syllables)
+            segments.append(word.raw)
+
+    return word_sep.join(segments)
 
 
 def words_to_colored_hanzi(
     words: List[Word], *, sep: str = "", escape_non_chinese: bool = True
 ) -> str:
-    """Return `sentence_text` where every Hanzi is wrapped in <mark class="toneN">.
+    """Return `sentence_text` where every Hanzi is wrapped in <mark class="tone-N">.
 
     *sep* joins the converted segments – use a single space for sentence &
     dictionary fields, and empty string for headwords.  If *escape_non_chinese*
@@ -178,38 +207,6 @@ def process_synonyms(synonym_string: str) -> str:
     return "<br>".join(colored_entries)
 
 
-
-def _detect_tone(syllable: str) -> int:
-    for ch in syllable:
-        if ch in vowel_to_tone:
-            return vowel_to_tone[ch]
-    if syllable and syllable[-1].isdigit():
-        d = int(syllable[-1])
-        if 1 <= d <= 4:
-            return d
-    return 5  # neutral
-
-# ---------------------------------------------------------------------------
-# build Word list from explicit pinyin
-# ---------------------------------------------------------------------------
-
-def chars_with_pinyin_to_words(chars: str, pinyin_str: str) -> List[Word]:
-    """Return `[Word]` representing *chars* coloured according to *pinyin_str*."""
-
-    pinyin_list = pinyin_str.strip().split()
-    parts: List[Character] = []
-
-    for idx, ch in enumerate(chars):
-        if _is_chinese_character(ch):
-            pinyin = pinyin_list[idx] if idx < len(pinyin_list) else ''
-            tone = _detect_tone(pinyin)
-            parts.append(Character(pinyin=pinyin, hanzi=ch, tone=tone))
-        else:
-            # keep punctuation as raw str in the same structure
-            parts.append(ch)
-
-    return [Word(raw=chars, is_chinese=True, parts=parts)]
-
 if __name__ == '__main__':
 
     def debug_word_repr(words):
@@ -227,8 +224,6 @@ if __name__ == '__main__':
         "你好世界",
         "你好，世界！",
         "我喜欢Python和C++。",
-        "这是一个测试。",
-        "银行的行长姓行",
         "你好   世界",
         "  leading and trailing spaces  ",
         "你好，世界！123 numbers"
