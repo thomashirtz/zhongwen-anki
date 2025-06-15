@@ -65,58 +65,9 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
      ...
      ```
 
-    a
-
-4. **Seed list creation**:
-
-    ~~~plaintext
-    ### Prompt for Seed List Creation:
-   
-    Please create a verified list of Chinese words, ensuring accuracy and clarity in each entry. For each word:
-    
-        1. **Double-check the Chinese characters** (both simplified and traditional, if applicable).
-        2. **Confirm the pinyin transcription**, ensuring proper spacing and tone markings.
-        3. **Provide a concise English translation** (e.g., one or two words) that reflects the most common meaning of the word in context.
-
-    Exclude any words that are:
-        - Unclear, ambiguous, or have meanings that are not straightforward.
-        - Rare, overly technical, or context-dependent in ways that might not be intuitive.
-
-    The final table should have the following columns:
-
-        1. **Simplified Characters**: The simplified version of the Chinese characters.
-        2. **Traditional Characters**: The traditional version of the Chinese characters.
-        3. **Pinyin**: The pinyin transcription of the Chinese word, with **one space** between each syllable and **proper tone markings**.
-        4. **Meaning**: A simple, clear English translation in one or two words.
-
-    Use the provided list as input, and output only those entries that are confirmed to be accurate and clear.
-
-    ---
-
-    ### Example Input
-
-        - 启用 (invoke)
-        - 大型 (large-scale)
-        - 深奥 (profound)
-
-    ---
-
-    ### Example Output
-
-    ```
-    Simplified Characters	Traditional Characters	Pinyin	Meaning
-    启用	啟用	qǐ yòng	invoke
-    大型	大型	dà xíng	large-scale
-    深奥	深奧	shēn ào	profound
-    ```
-   
-    ### Word List
-
-    <<WORD LIST HERE>>
-    ~~~
-
-5. **LLM Query**:
+4. **LLM Query**:
    - Use the following prompt with an LLM to generate the necessary content for each word in your list. You can do that by copying the following prompt, append the word list at the end, and send it manually in an LLM conversation such as on [ChatGPT](https://chatgpt.com/?model=gpt-4o).
+   - CGPT4 seems to struggle to output the right format. CGPT4.1 seems better to handle this.
 
    ~~~plaintext
    ### Prompt:
@@ -134,13 +85,17 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
    9.  **DictionaryMeaning**: The English translation of the definition, giving a brief explanation of the term's meaning.
    
    Use the above structure to create the table for each entry from the provided list of words.
-   
+   The input can be only Chinese words, or Chinese words with hints of their meaning. The list may vary in form, such as just the Chinese word, the word with a hint of its meaning, its pinyin, or an indication of its domain.
+   If the word includes an error (e.g. malformed characters, misspelled pinyin, etc.), attempt to correct it and note the correction at the end.
+   If a word is too unclear or ambiguous to reasonably interpret, do not include it in the table, and list it at the end of the output with a note indicating that its meaning or intent could not be confidently determined.
+   If a word has multiple common meanings, choose the most likely or general one based on common usage; do not attempt to cover all meanings at this stage.
+
    -----
    
    ### Example Input
    
    ```
-   - 向量 (vector)
+   - 向量 vector
    - 矩阵 (matrix)
    - ...
    ```
@@ -167,6 +122,9 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
    6.  **Word Spacing in Chinese Text**: For `Sentence Example` and `DictionarySimplified`.
    7.  **Formatting**: Return only the table, exactly the way I formatted the output, with a tab separating the entries.
    
+   Try to process as many words as possible in order; if the full list cannot be completed in one reply, I will send "continue" so you can resume the generation from where you left off.
+   Reply in a TSV codeblock, do not generate code per se, do not write python or use pandas.
+   
    ### Word List
 
    <<WORD LIST HERE>>
@@ -175,17 +133,17 @@ These buttons seamlessly integrate with the Pleco dictionary app, giving you qui
    This will generate a table with all necessary fields for the flashcards.
    [Here](https://chatgpt.com/share/6513c81e-73af-476b-b6d8-cffaeb83652f) is an example of conversation to get the word list. Also [`./data/input.tsv`](./data/input.tsv) is an example of word list generated.
 
-6. **Data Processing**:
+5. **Data Processing**:
    - Once you receive the generated data from the LLM, save it as a `.tsv` file and process it with the `zhongwen-anki` package:
      ```bash
      zhongwen-anki -i 'input_file_path' -o 'output_file_path'
      ```
    - Replace `input_file_path` with the path to your input `.tsv` file and `output_file_path` with your desired output path for the processed data.
 
-7. **Import Processed Data into Anki**:
+6. **Import Processed Data into Anki**:
    - Import the processed `.tsv` file into Anki by selecting `File > Import` and choosing the file. Make sure the fields are correctly mapped before importing.
 
-8. **Start Learning**:
+7. **Start Learning**:
    - Begin reviewing your new flashcards. Adjust your Anki settings for optimal learning based on your preferences (see recommendations below).
 
 

@@ -88,6 +88,12 @@ def generate_flashcards(input_path: Path, output_path: Path) -> None:
     # fill NaN with empty string to avoid None issues downstream
     df = df.fillna("")
 
+    before = len(df)
+    df = df.drop_duplicates(subset="Simplified", keep="first")
+    after = len(df)
+    if after < before:
+        print(f"ℹ️  Removed {before - after:,} duplicate rows based on 'Simplified'.")
+
     processed_rows = [_transform_row(row) for _, row in df.iterrows()]
     out_df = pd.DataFrame(processed_rows, columns=OUTPUT_COLUMNS)
 
